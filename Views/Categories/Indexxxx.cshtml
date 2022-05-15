@@ -1,0 +1,66 @@
+@model IEnumerable<ProductManagement.Models.Category>
+
+@{
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+   <div class="row">
+      <div class="col-3">
+         <p>
+            <a asp-action="Create">Create New</a>
+         </p>
+         <table class="table">
+            <thead>
+               <tr>
+                  <th>
+                     @Html.DisplayNameFor(model => model.Name)
+                  </th>
+                  <th></th>
+               </tr>
+            </thead>
+            <tbody>
+               @foreach (var item in Model)
+               {
+                  <tr>
+                     <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                     </td>
+                     <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl">Extra large modal</button>
+                     </td>
+                  </tr>
+               }
+            </tbody>
+         </table>
+      </div>
+      <div class="col-9">
+         <div id="product" class="overflow-auto">
+           
+         </div>
+      </div>
+      <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+         <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+               @*@await Html.PartialAsync("_CreatePartial")*@
+               <partial name="_CreatePartial"/>
+            </div>
+         </div>
+      </div>
+
+
+   </div>
+   
+</body>
+</html>

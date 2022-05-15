@@ -67,6 +67,7 @@ namespace ProductManagement
             Text = m.Name,
             Value = m.Id.ToString()
          });
+
          if (product.Photo != null)
          {
             string fPath = Path.Combine(hosting.WebRootPath, "Images\\Products");
@@ -88,6 +89,29 @@ namespace ProductManagement
                }
             }
          }
+
+         if (product.Photo != null)
+         {
+            string fPath = Path.Combine(hosting.WebRootPath, "Images\\Products");
+            if (!Directory.Exists(fPath))
+            {
+               Directory.CreateDirectory(fPath);
+            }
+            string fExt = Path.GetExtension(product.Photo.FileName).ToLower();
+            if (fExt == ".jpg" || fExt == ".jpeg" || fExt == ".png" || fExt == ".gif")
+            {
+               string fNameWithoutSpace = product.Name.Replace(" ", "_");
+               string fName = fNameWithoutSpace + DateTime.Now.ToString("ddmmyyyy" +
+               "") + fExt;
+               string fileToSave = Path.Combine(fPath, fName);
+               using (var fileStream = new FileStream(fileToSave, FileMode.Create))
+               {
+                  product.Photo.CopyTo(fileStream);
+                  product.PhotoPath = "~/Images/Products/" + fName;
+               }
+            }
+         }
+
          if (ModelState.IsValid)
          {
             //if (product.Photo != null)
